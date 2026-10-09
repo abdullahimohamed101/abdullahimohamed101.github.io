@@ -230,6 +230,26 @@ h3 {
   text-underline-offset: 3px;
 }
 
+/* ---------- intro ---------- */
+
+.intro {
+  padding: clamp(24px, 4vw, 48px) 0 clamp(72px, 9vw, 120px);
+}
+
+.intro-text {
+  max-width: 980px;
+  font-size: clamp(26px, 3.6vw, 44px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #6e6e73;
+}
+
+.intro-text strong {
+  font-weight: 600;
+  color: var(--fg);
+}
+
 /* ---------- project sections ---------- */
 
 .project {
@@ -719,6 +739,17 @@ h3 {
   padding: 0;
   display: grid;
   gap: 18px;
+}
+
+.coursework {
+  margin-top: 18px;
+  font-size: 15px !important;
+  color: var(--fg2);
+}
+
+.lead-text {
+  margin-top: 6px;
+  color: var(--fg2);
 }
 
 .lead b {

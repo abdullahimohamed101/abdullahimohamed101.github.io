@@ -8,52 +8,58 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/the-abdullahi-mohamed/',
 }
 
+export const intro = [
+  { t: 'I’m a computer science student at Ohio State, minoring in applied math. ' },
+  { t: 'This summer at Intuit I built an agentic AI platform that triages production incidents. ', hi: true },
+  { t: 'On my own time I build the systems AI runs on: ' },
+  { t: 'inference routing, agent observability and real-time pipelines.', hi: true },
+]
+
 export const about = {
   headline: 'Systems you can measure.',
   paragraphs: [
-    'I’m Abdullahi, a computer science and engineering student at Ohio State. I build distributed systems and the infrastructure underneath AI: inference gateways, telemetry pipelines, and the tools that show what is actually happening inside them.',
-    'I work in phases, write down the decisions, and benchmark before I claim anything. Every number on this page comes from a test in the repo, with the conditions it was measured under.',
-    'When I needed help with my own job search, I built that too: a pipeline that pulls internship postings from four sources into one Discord channel.',
+    'I like the layer most people never see: the routers, queues, pipelines and telemetry that decide whether a system is fast, reliable and debuggable.',
+    'I work in phases, write down the decisions, and benchmark before I claim anything. Every number in the project sections above comes from a test in the repo, with the conditions it was measured under.',
+    'Outside of class I founded the Ohio State chapter of Minorities in Technology, and when I needed help with my own internship search, I built that too.',
   ],
   now: [
     { name: 'Agent Black Box', text: 'Heading toward evaluations, approvals and multi-agent tracing.' },
     { name: 'ServerFlow', text: 'Real vLLM workers next, once a GPU is in the loop.' },
   ],
-  toolbox: ['Go', 'Python', 'TypeScript', 'Java', 'C', 'SQL', 'PostgreSQL', 'Redis', 'FastAPI', 'React', 'Next.js', 'Docker'],
+  toolbox: ['Go', 'Python', 'Java', 'TypeScript', 'C++', 'C#', 'PostgreSQL', 'Redis', 'Kafka', 'Kubernetes', 'Docker', 'AWS', 'Azure', 'PyTorch', 'vLLM', 'CUDA', 'LangGraph'],
   photo: { src: '/abdullahi-portrait.jpg', alt: 'Abdullahi Mohamed, arms crossed, in front of an orange backdrop' },
 }
 
-// From the resume. Phone number and citizenship intentionally left off the public site.
+// From the resume. Phone number, email and citizenship intentionally left off the public site.
 export const resume = {
   education: {
     school: 'The Ohio State University',
-    degree: 'B.S. Computer Science and Engineering',
-    when: 'Expected May 2027',
-    details: ['GPA 3.6', 'Dean’s List', 'STEP Program'],
+    degree: 'B.S. Computer Science, Minor in Applied Mathematics',
+    when: 'Expected May 2028',
+    details: ['GPA 3.8'],
+    coursework: 'Distributed Systems · Operating Systems · Database Systems · Computer Networking · Computer Architecture · Data Structures and Algorithms · Applied Machine Learning',
   },
   experience: [
     {
-      role: 'Machine Learning Research Assistant',
-      org: 'Ohio State, Department of Biomedical Informatics',
-      when: 'Jan – Mar 2025',
-      text: 'Predictive models on electronic health record data to flag early signs of chronic conditions. Feature engineering in Pandas and NumPy, classifiers in scikit-learn, AUC-ROC up 18%, plus bias evaluation across demographic groups.',
+      role: 'Software Engineer Intern',
+      org: 'Intuit · Mountain View, CA',
+      when: 'May – Aug 2026',
+      text: 'Built an agentic AI incident-response platform with LangGraph and FastAPI on Kubernetes, routing diagnostics across 25+ production microservices and cutting manual triage by 90%. Added a RAG pipeline over 50+ service runbooks and a self-service portal for onboarding new services.',
     },
     {
-      role: 'Technology Intern',
-      org: 'Advantage HealthCare',
-      when: 'Aug – Dec 2024',
-      text: 'Ran IT infrastructure and networks under HIPAA, built automated backup and disaster recovery, and integrated EHR software across platforms.',
-    },
-    {
-      role: 'Software Development Intern',
-      org: 'Bulsho Trust Research',
-      when: 'Jun – Aug 2024',
-      text: 'Wrote unit and integration test suites for research software and worked with researchers to track down and fix critical bugs.',
+      role: 'Software Engineer Research Assistant',
+      org: 'The Ohio State University',
+      when: 'Aug 2025 – Apr 2026',
+      text: 'A concurrent Python pipeline that normalized 120,000+ DICOM imaging slices, a PyTorch benchmarking framework for 3D CNNs and Vision Transformers that beat published baselines by 15%, and containerized distributed training on lab GPU clusters that cut training time 40%.',
     },
   ],
   leadership: [
-    { role: 'Career Prep Fellow', org: 'Management Leadership for Tomorrow', when: '2025 – present' },
-    { role: 'IT Chair', org: 'Somali Students’ Association', when: '2024 – present' },
+    {
+      role: 'Chapter Founder & President',
+      org: 'Minorities in Technology at Ohio State',
+      when: 'Aug 2025 – present',
+      text: 'Weekly technical workshops and recruiting partnerships with Microsoft, Google and LinkedIn.',
+    },
   ],
 }
 
@@ -120,6 +126,18 @@ export const featured = [
 ]
 
 export const more = [
+  {
+    id: 'motionman',
+    name: 'MotionMan',
+    text: 'A multi-threaded C++ object-tracking engine on RT-DETR and ByteTrack: 40+ FPS across 25+ streams, with FP16 TensorRT engines cutting inference latency 45%.',
+    stack: 'C++ · CUDA · TensorRT · OpenCV',
+  },
+  {
+    id: 'buckeyeplanner',
+    name: 'BuckeyePlanner',
+    text: 'A Spring Boot degree-audit engine for Ohio State students that validates prerequisites across 200+ programs with graph traversal.',
+    stack: 'Java · Spring Boot · PostgreSQL · Docker · AWS EKS',
+  },
   {
     id: 'internship-aggregator',
     name: 'Internship Aggregator',

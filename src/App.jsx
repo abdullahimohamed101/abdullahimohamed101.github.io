@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { profile, featured, more, about, resume, footnote } from './data.js'
+import { profile, featured, more, intro, about, resume, footnote } from './data.js'
 
 const still = () => matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -89,6 +89,24 @@ function Hero() {
           </a>
         </div>
       </div>
+    </section>
+  )
+}
+
+function Intro() {
+  const ref = useRef(null)
+  useFade(ref)
+  return (
+    <section className="intro dark" aria-label="Introduction">
+      <p className="wrap intro-text fade" ref={ref}>
+        {intro.map((s) =>
+          s.hi ? (
+            <strong key={s.t}>{s.t}</strong>
+          ) : (
+            <span key={s.t}>{s.t}</span>
+          ),
+        )}
+      </p>
     </section>
   )
 }
@@ -217,9 +235,11 @@ function Also() {
               <h3>{m.name}</h3>
               <p>{m.text}</p>
               <p className="stack">{m.stack}</p>
-              <a className="more" href={m.repo} target="_blank" rel="noreferrer">
-                View on GitHub <span aria-hidden="true">›</span>
-              </a>
+              {m.repo && (
+                <a className="more" href={m.repo} target="_blank" rel="noreferrer">
+                  View on GitHub <span aria-hidden="true">›</span>
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -306,6 +326,7 @@ function Resume() {
               <li key={d}>{d}</li>
             ))}
           </ul>
+          <p className="coursework">{ed.coursework}</p>
         </div>
         <div className="card">
           <h3 className="card-h">Leadership</h3>
@@ -315,6 +336,7 @@ function Resume() {
                 <b>{l.role}</b>
                 <p>{l.org}</p>
                 <p className="muted">{l.when}</p>
+                {l.text && <p className="lead-text">{l.text}</p>}
               </li>
             ))}
           </ul>
@@ -351,6 +373,7 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
+        <Intro />
         {featured.map((p, i) => (
           <Project key={p.id} p={p} tone={i % 2 ? 'light' : 'dark'} />
         ))}
