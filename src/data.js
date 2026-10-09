@@ -2,110 +2,86 @@ const GH = 'https://github.com/abdullahimohamed101'
 
 export const profile = {
   name: 'Abdullahi Mohamed',
-  tagline: 'I build infrastructure for AI systems.',
-  summary:
-    'Backend systems and developer tooling: routing LLM inference across GPU workers, tracing what agents actually do, and moving data in real time.',
-  links: [
-    { label: 'GitHub', href: GH },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/the-abdullahi-mohamed/' },
-  ],
+  tagline: 'I build infrastructure for AI.',
+  github: GH,
+  linkedin: 'https://www.linkedin.com/in/the-abdullahi-mohamed/',
 }
 
-// Trace axis: real repo activity windows.
-export const specNote =
-  'Measured on one laptop (Apple M5 Pro). These are regression baselines from the repos, not capacity claims.'
+export const footnote =
+  'Benchmarks measured on one laptop (Apple M5 Pro); regression baselines from the repos, not capacity claims.'
 
-export const traceStart = '2025-10-01'
-export const traceEnd = '2026-10-31'
-
-export const projects = [
+export const featured = [
   {
     id: 'agent-black-box',
     name: 'Agent Black Box',
-    kind: 'observability',
-    featured: true,
-    live: true,
-    start: '2026-10-07',
-    end: null,
-    repo: `${GH}/agent-black-box`,
-    lede: 'A flight recorder for AI agents.',
+    tagline: 'See everything your agent did.',
     body:
-      'Every model call, tool call, file edit, shell command, retry and failure, with cost and latency attached, streamed live to a dashboard. Built around a versioned telemetry contract rather than any single datastore.',
-    specs: [
-      { param: 'Batch ingest ack, p95', cond: '1 client, 100-event batches, 2 vCPU', value: '43.7 ms', target: '< 150 ms' },
-      { param: 'Sustained ingest', cond: '1 client, worker running', value: '3,249 ev/s', target: '—' },
-      { param: 'Run read, p95', cond: '2,000-event run', value: '2.8 ms', target: '< 500 ms' },
+      'A flight recorder for AI agents. Every model call, tool call, file edit, shell command, retry and failure, with cost and latency attached, streamed live.',
+    repo: `${GH}/agent-black-box`,
+    stats: [
+      { value: '43.7', unit: 'ms', label: 'p95 batch ingest ack', note: 'target 150 ms' },
+      { value: '3,249', unit: 'events/s', label: 'sustained ingest' },
+      { value: '2.8', unit: 'ms', label: 'p95 run read', note: '2,000-event run' },
     ],
-    spans: [
-      'Python SDK → FastAPI → PostgreSQL events + outbox → workers',
-      'SSE live stream into a Next.js trace viewer',
-      'Adapters: OpenAI, Anthropic, LangGraph, MCP + conformance suite',
-      'Demo agent fixes a broken OAuth service, fails a test, retries, passes',
+    features: [
+      { title: 'Pipeline', text: 'Python SDK → FastAPI → PostgreSQL → workers, on a versioned telemetry contract.' },
+      { title: 'Live', text: 'An SSE stream into a Next.js trace viewer, as events arrive.' },
+      { title: 'Adapters', text: 'OpenAI, Anthropic, LangGraph and MCP, with a conformance suite.' },
+      { title: 'Demo agent', text: 'Fixes a broken OAuth service, fails a test, retries and passes.' },
     ],
-    stack: ['Python', 'FastAPI', 'PostgreSQL', 'TypeScript', 'Next.js', 'Docker'],
-    imageAlt: 'Agent Black Box run view: a coding agent fails a test, retries and passes',
-    image:
-      'https://raw.githubusercontent.com/abdullahimohamed101/agent-black-box/HEAD/docs/screenshots/phase-6/story.png',
+    image: { src: '/agent-black-box.png', alt: 'Agent Black Box run view: a coding agent fails a test, retries and passes' },
   },
   {
     id: 'serverflow',
     name: 'ServerFlow',
-    kind: 'inference',
-    featured: true,
-    live: true,
-    start: '2026-09-06',
-    end: null,
-    repo: `${GH}/ServerFlow`,
-    lede: 'A distributed LLM inference control plane.',
+    tagline: 'Route every token.',
     body:
-      'Everything between the client and the inference engine: an OpenAI-compatible gateway, a worker registry with heartbeats and death detection, pluggable schedulers, retries, API-key auth and a reproducible benchmark harness.',
-    specs: [
-      { param: 'Gateway overhead, p95', cond: 'non-streaming, concurrency 16', value: '0.48 ms', target: '< 25 ms' },
-      { param: 'Time to first chunk overhead, p95', cond: 'streaming, concurrency 16', value: '0.50 ms', target: '< 25 ms' },
-      { param: 'Client-visible failures', cond: '1,000 requests, 1 of 4 workers always failing', value: '0', target: '0' },
+      'A distributed LLM inference control plane. An OpenAI-compatible gateway, a worker registry with heartbeats and death detection, pluggable schedulers, retries on another worker, API-key auth and a reproducible benchmark harness.',
+    repo: `${GH}/ServerFlow`,
+    stats: [
+      { value: '0.5', unit: 'ms', label: 'p95 gateway overhead', note: 'budget 25 ms' },
+      { value: '0', label: 'client-visible failures', note: '1,000 requests, one of four workers always failing' },
+      { value: '4', label: 'scheduling strategies', note: 'round-robin, random, least-active, least-queue' },
     ],
-    spans: [
-      'Gateway: /v1/chat/completions with streaming, /v1/models, /metrics',
-      'Control plane: register → heartbeat → suspect → lost',
-      'Retry on a different worker when a request fails before any output',
-      'Benchmark harness: seeded workloads, repeat runs, run-vs-run compare',
+    features: [
+      { title: 'Gateway', text: '/v1/chat/completions with streaming, /v1/models and /metrics.' },
+      { title: 'Registry', text: 'Register → heartbeat → suspect → lost. A dead backend is noticed at once.' },
+      { title: 'Retries', text: 'A request that fails before any output is retried on a different worker.' },
+      { title: 'Even split', text: 'Round-robin sent 750 requests 188, 188, 187, 187 across four workers.' },
     ],
-    stack: ['Go', 'vLLM', 'PostgreSQL', 'Prometheus'],
+    // Commands from the README; output quoted from docs/benchmarks/phase-7-sample/compare_run_001_run_004.txt.
+    terminal: [
+      { cmd: 'make bench BENCH_ARGS="--scheduler round-robin --workers 3 --worker-profile heterogeneous --concurrency 12 --duration 20s --warmup 3s --workload mixed --seed 1 --repeat 3"' },
+      { cmd: 'make bench BENCH_ARGS="--scheduler least-active ...same flags..."' },
+      { cmd: 'make bench-compare A=run_001 B=run_004' },
+      { out: 'Comparing run_001 (A) with run_004 (B): medians of 3 and 3 repeats, with the min-max range of each in brackets.' },
+      { out: '' },
+      { out: 'METRIC         A                    B                    DELTA        CHANGE    SPREAD' },
+      { out: 'throughput     21.75 [21.75-22]     25.25 [25.1-25.3]    +3.5 req/s   +16.09%   ranges do not overlap' },
+      { out: 'latency p50    267.2 [260.4-280.4]  235.3 [222-248.7]    -31.82 ms    -11.91%   ranges do not overlap' },
+      { out: 'latency p95    2141 [1971-2246]     1520 [1508-1698]     -620.4 ms    -28.98%   ranges do not overlap' },
+      { out: 'TTFT p95       60.41 [60.38-60.52]  60.39 [60.38-60.42]  -0.01767 ms  -0.03%    ranges overlap' },
+      { out: 'error rate     0 [0-0]              0 [0-0]              +0 %         +0.00 pp  n/a' },
+      { out: '' },
+      { out: 'Metadata that differs (expected for this comparison):' },
+      { out: '  scheduler: round-robin -> least-active' },
+    ],
   },
+]
+
+export const more = [
   {
     id: 'internship-aggregator',
     name: 'Internship Aggregator',
-    kind: 'pipeline',
-    live: false,
-    start: '2026-07-12',
-    end: '2026-08-03',
+    text: 'Every US internship posting, normalized, deduplicated and delivered to one Discord channel.',
+    stack: 'TypeScript · Node.js · PostgreSQL · Discord',
     repo: `${GH}/recruiting-help`,
-    lede: 'Every US internship posting, in one Discord channel.',
-    body:
-      'Collects internship, co-op and new-grad roles from GitHub, Discord, Instagram and Slack sources, normalizes and deduplicates them, tags sponsorship status instead of hiding roles, and publishes alerts.',
-    spans: [
-      'Signed unified ingestion into PostgreSQL',
-      'Geography + sponsorship normalization',
-      'Discord bot delivery, GitHub poller connector',
-    ],
-    stack: ['TypeScript', 'Node.js', 'PostgreSQL', 'Discord'],
   },
   {
     id: 'risk-dashboard',
     name: 'Real-Time Risk Dashboard',
-    kind: 'fintech',
-    live: false,
-    start: '2025-10-11',
-    end: '2025-10-13',
+    text: 'Rolling Sharpe, Beta, VaR, CVaR and Fama-French exposures, pushed to the browser over WebSockets.',
+    stack: 'Python · FastAPI · Redis · React · PostgreSQL',
     repo: `${GH}/realtimedashboard`,
-    lede: 'Portfolio risk, recomputed as prices move.',
-    body:
-      'Ingests holdings, computes rolling Sharpe, Beta, VaR and CVaR plus Fama-French three-factor exposures, and pushes updates to the browser over WebSockets.',
-    spans: [
-      'FastAPI + SQLAlchemy/Alembic, APScheduler jobs',
-      'Redis pub/sub → WebSocket fan-out',
-      'React + Vite + Recharts front end, CI on GitHub Actions',
-    ],
-    stack: ['Python', 'FastAPI', 'Redis', 'React', 'PostgreSQL'],
   },
 ]
