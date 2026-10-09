@@ -9,10 +9,7 @@ export const profile = {
 }
 
 export const intro = [
-  { t: 'I’m a computer science student at Ohio State, minoring in applied math. ' },
-  { t: 'This summer at Intuit I built an agentic AI platform that triages production incidents. ', hi: true },
-  { t: 'On my own time I build the systems AI runs on: ' },
-  { t: 'inference routing, agent observability and real-time pipelines.', hi: true },
+  { t: 'I’m Abdullahi, a CS student at Ohio State. When the internship hunt got overwhelming, I built a pipeline to do it for me. Most of what I build starts that way: something’s broken, and I want to see exactly why.' },
 ]
 
 export const about = {
@@ -20,7 +17,7 @@ export const about = {
   paragraphs: [
     'I like the layer most people never see: the routers, queues, pipelines and telemetry that decide whether a system is fast, reliable and debuggable.',
     'I work in phases, write down the decisions, and benchmark before I claim anything. Every number in the project sections above comes from a test in the repo, with the conditions it was measured under.',
-    'Outside of class I founded the Ohio State chapter of Minorities in Technology, and when I needed help with my own internship search, I built that too.',
+    'Outside of class I founded the Ohio State chapter of Minorities in Technology, where we run weekly technical workshops.',
   ],
   now: [
     { name: 'Agent Black Box', text: 'Heading toward evaluations, approvals and multi-agent tracing.' },
