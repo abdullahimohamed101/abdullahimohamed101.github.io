@@ -181,6 +181,7 @@ h1 {
 
 .trace-body {
   position: relative;
+  touch-action: pan-y;
   padding: 2px 18px 10px;
   --label: 230px;
 }
@@ -205,15 +206,6 @@ h1 {
   color: var(--ink);
 }
 
-.now {
-  position: absolute;
-  top: 30px;
-  width: 1px;
-  height: 9999px;
-  background: var(--live);
-  opacity: 0.45;
-}
-
 .row {
   display: grid;
   grid-template-columns: var(--label) 1fr;
@@ -227,16 +219,20 @@ h1 {
 }
 
 @media (hover: hover) {
-  .row:hover {
+  .trace-body:not(.scrubbing) .row:hover {
     background-color: color-mix(in srgb, var(--ink) 5%, transparent);
   }
-  .trace-body:has(.row:hover) .row:not(:hover) .span {
+  .trace-body:not(.scrubbing):has(.row:hover) .row:not(:hover) .span {
     opacity: 0.35;
   }
-  .row:hover .row-label {
+  .trace-body:not(.scrubbing) .row:hover .row-label {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
+}
+
+.row:active .row-label {
+  opacity: 0.6;
 }
 
 .row-label {
@@ -276,6 +272,70 @@ h1 {
   white-space: nowrap;
   animation: fade 200ms var(--ease-out) both;
   animation-delay: calc(var(--i) * 80ms + 650ms);
+}
+
+/* scrub cursor: rests on "now"; positioned by JS with transform only */
+
+.trace-body.scrubbing .row:not(.on) .span {
+  opacity: 0.3;
+}
+
+.rail {
+  position: absolute;
+  top: 2px;
+  bottom: 10px;
+  left: calc(18px + var(--label));
+  right: 18px;
+  pointer-events: none;
+}
+
+.cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  will-change: transform;
+}
+
+.cursor-stem {
+  position: absolute;
+  top: 30px;
+  bottom: -10px;
+  width: 1px;
+  background: var(--live);
+  opacity: 0.45;
+}
+
+.scrubbing .cursor-stem {
+  background: var(--ink);
+  opacity: 0.6;
+}
+
+.cursor-chip {
+  position: absolute;
+  top: 5px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 12px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 120ms var(--ease-out);
+}
+
+.cursor[data-align='start'] .cursor-chip {
+  transform: none;
+}
+
+.cursor[data-align='end'] .cursor-chip {
+  transform: translateX(-100%);
+}
+
+.scrubbing .cursor-chip {
+  opacity: 1;
 }
 
 /* ---------- featured projects ---------- */

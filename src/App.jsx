@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { profile, projects, specNote, traceStart, traceEnd } from './data.js'
 
 const DAY = 86400000
@@ -84,14 +84,175 @@ function Header() {
   )
 }
 
+// Scrub cursor: tracks the pointer 1:1, rubber-bands past the track edges, and on
+// release returns to "now" on a critically damped spring that inherits the
+// pointer's velocity. Any new pointer input interrupts the spring mid-flight.
+const RESPONSE = 0.4 // seconds, Apple's default for repositioning
+const OMEGA = (2 * Math.PI) / RESPONSE
+const BAND = 8 // max rubber-band overshoot, % of track
+
+const rubber = (x) => {
+  const band = (d) => (1 - 1 / ((d * 0.55) / BAND + 1)) * BAND
+  if (x < 0) return -band(-x)
+  if (x > 100) return 100 + band(x - 100)
+  return x
+}
+
+function monthKey(x) {
+  const d = new Date(t0 + (Math.min(Math.max(x, 0), 100) / 100) * (t1 - t0))
+  return d.getUTCFullYear() * 12 + d.getUTCMonth()
+}
+
+function useScrub(bodyRef, railRef, lineRef, rest) {
+  const [month, setMonth] = useState(null)
+  useEffect(() => {
+    const body = bodyRef.current
+    const rail = railRef.current
+    const line = lineRef.current
+    const still = matchMedia('(prefers-reduced-motion: reduce)')
+    const st = { x: rest, v: 0, raf: 0, last: 0, active: false, touch: null, samples: [], swallowClick: false }
+
+    const draw = () => {
+      line.style.transform = `translateX(${(st.x / 100) * rail.clientWidth}px)`
+      line.dataset.align = st.x > 88 ? 'end' : st.x < 12 ? 'start' : 'mid'
+    }
+    const toX = (clientX) => {
+      const r = rail.getBoundingClientRect()
+      return ((clientX - r.left) / r.width) * 100
+    }
+    const velocity = () => {
+      const s = st.samples
+      if (s.length < 2) return 0
+      const dt = (s[s.length - 1].t - s[0].t) / 1000
+      return dt > 0 ? (s[s.length - 1].x - s[0].x) / dt : 0
+    }
+
+    const step = (ts) => {
+      const dt = Math.min((ts - st.last) / 1000, 1 / 30)
+      st.last = ts
+      st.v += (-OMEGA * OMEGA * (st.x - rest) - 2 * OMEGA * st.v) * dt
+      st.x += st.v * dt
+      if (Math.abs(st.v) < 0.05 && Math.abs(st.x - rest) < 0.05) {
+        st.x = rest
+        st.v = 0
+        st.raf = 0
+        draw()
+        return
+      }
+      draw()
+      st.raf = requestAnimationFrame(step)
+    }
+
+    const grab = (x) => {
+      cancelAnimationFrame(st.raf)
+      st.raf = 0
+      st.x = x
+      const t = performance.now()
+      st.samples.push({ x, t })
+      while (st.samples.length > 2 && t - st.samples[0].t > 80) st.samples.shift()
+      if (!st.active) {
+        st.active = true
+        body.classList.add('scrubbing')
+      }
+      draw()
+      setMonth(monthKey(x))
+    }
+
+    const release = () => {
+      if (!st.active) return
+      st.active = false
+      body.classList.remove('scrubbing')
+      setMonth(null)
+      st.v = velocity()
+      st.samples = []
+      if (still.matches) {
+        st.x = rest
+        st.v = 0
+        draw()
+        return
+      }
+      st.last = performance.now()
+      st.raf = requestAnimationFrame(step)
+    }
+
+    const onMove = (e) => {
+      if (e.pointerType !== 'touch') {
+        const x = toX(e.clientX)
+        if (x >= 0 && x <= 100) grab(x)
+        else release()
+        return
+      }
+      const t = st.touch
+      if (!t || t.id !== e.pointerId) return
+      if (!t.started) {
+        const dx = Math.abs(e.clientX - t.x0)
+        const dy = Math.abs(e.clientY - t.y0)
+        if (dx > 10 && dx > dy) {
+          t.started = true
+          body.setPointerCapture(e.pointerId)
+        } else if (dy > 10) {
+          st.touch = null // vertical: let the page scroll
+          return
+        } else return
+      }
+      grab(rubber(toX(e.clientX)))
+    }
+    const onDown = (e) => {
+      st.swallowClick = false
+      if (e.pointerType === 'touch') st.touch = { id: e.pointerId, x0: e.clientX, y0: e.clientY, started: false }
+    }
+    const onUp = (e) => {
+      if (e.pointerType !== 'touch') return
+      if (st.touch?.started) {
+        st.swallowClick = true
+        release()
+      }
+      st.touch = null
+    }
+    const onClick = (e) => {
+      if (!st.swallowClick) return
+      st.swallowClick = false
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    draw()
+    body.addEventListener('pointermove', onMove)
+    body.addEventListener('pointerdown', onDown)
+    body.addEventListener('pointerup', onUp)
+    body.addEventListener('pointercancel', onUp)
+    body.addEventListener('pointerleave', release)
+    body.addEventListener('click', onClick, true)
+    addEventListener('resize', draw)
+    return () => {
+      cancelAnimationFrame(st.raf)
+      body.removeEventListener('pointermove', onMove)
+      body.removeEventListener('pointerdown', onDown)
+      body.removeEventListener('pointerup', onUp)
+      body.removeEventListener('pointercancel', onUp)
+      body.removeEventListener('pointerleave', release)
+      body.removeEventListener('click', onClick, true)
+      removeEventListener('resize', draw)
+    }
+  }, [bodyRef, railRef, lineRef, rest])
+  return month
+}
+
 function Trace() {
   const ticks = months()
+  const bodyRef = useRef(null)
+  const railRef = useRef(null)
+  const lineRef = useRef(null)
+  const month = useScrub(bodyRef, railRef, lineRef, pct(now))
+  const monthStart = month === null ? 0 : Date.UTC(Math.floor(month / 12), month % 12, 1)
+  const monthEnd = month === null ? 0 : Date.UTC(Math.floor(month / 12), (month % 12) + 1, 1)
+
   return (
     <figure className="trace">
       <figcaption>
         Projects by repository activity <span>· {fmt(traceStart)} – now</span>
       </figcaption>
-      <div className="trace-body">
+      <div className="trace-body" ref={bodyRef}>
         <div className="axis mono" aria-hidden="true">
           {ticks.map((t, i) => (
             <span key={i} className={`tick${t.jan ? ' jan' : ''}${t.q ? ' q' : ''}`} style={{ left: `${t.at}%` }}>
@@ -99,12 +260,14 @@ function Trace() {
               {t.jan && <span className="yr"> ’{String(t.year).slice(2)}</span>}
             </span>
           ))}
-          <span className="now" style={{ left: `${pct(now)}%` }} />
         </div>
         {[...projects].reverse().map((p, i) => {
           const s = spanOf(p)
+          const ps = new Date(p.start).getTime()
+          const pe = p.end ? new Date(p.end).getTime() : now
+          const on = month !== null && ps < monthEnd && pe >= monthStart
           return (
-            <a key={p.id} className="row" href={`#${p.id}`} style={{ '--i': i }}>
+            <a key={p.id} className={on ? 'row on' : 'row'} href={`#${p.id}`} style={{ '--i': i }}>
               <span className="row-label">{p.name}</span>
               <span className="row-track">
                 <span
@@ -125,6 +288,15 @@ function Trace() {
             </a>
           )
         })}
+        <div className="rail" ref={railRef} aria-hidden="true">
+          <div className="cursor" ref={lineRef}>
+            <span className="cursor-stem" />
+            <span className="cursor-chip mono">
+              {month !== null &&
+                new Date(monthStart).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
+            </span>
+          </div>
+        </div>
       </div>
     </figure>
   )
