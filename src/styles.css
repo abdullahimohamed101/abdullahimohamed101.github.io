@@ -157,6 +157,19 @@ h3 {
   pointer-events: none;
 }
 
+.hero-photo {
+  display: block;
+  width: clamp(104px, 11vw, 132px);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0 auto 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 18px 50px rgba(0, 0, 0, 0.6);
+}
+
 .hero h1 {
   font-size: clamp(48px, 9vw, 120px);
   letter-spacing: -0.035em;
@@ -230,17 +243,18 @@ h3 {
   text-align: center;
 }
 
-.eyebrow {
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--fg2);
+.copy h2 {
+  font-size: clamp(52px, 8.4vw, 112px);
+  letter-spacing: -0.035em;
+  line-height: 1;
 }
 
-.copy h2 {
-  margin-top: 10px;
-  font-size: clamp(40px, 6.4vw, 84px);
-  letter-spacing: -0.03em;
+.tagline {
+  margin-top: 14px;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .lede {

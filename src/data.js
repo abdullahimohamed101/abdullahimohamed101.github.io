@@ -2,7 +2,8 @@ const GH = 'https://github.com/abdullahimohamed101'
 
 export const profile = {
   name: 'Abdullahi Mohamed',
-  tagline: 'I build infrastructure for AI.',
+  tagline: 'I build distributed systems and infrastructure for AI.',
+  photo: { src: '/abdullahi.jpg', alt: 'Portrait of Abdullahi Mohamed' },
   github: GH,
   linkedin: 'https://www.linkedin.com/in/the-abdullahi-mohamed/',
 }

@@ -76,6 +76,7 @@ function Hero() {
   return (
     <section className="hero dark" id="top">
       <div className="hero-copy">
+        <img className="hero-photo" src={profile.photo.src} alt={profile.photo.alt} width="132" height="132" />
         <h1>{profile.name}.</h1>
         <p className="hero-sub">{profile.tagline}</p>
         <div className="actions">
@@ -96,8 +97,8 @@ function Copy({ p }) {
   useFade(ref)
   return (
     <div className="copy fade" ref={ref}>
-      <p className="eyebrow">{p.name}</p>
-      <h2>{p.tagline}</h2>
+      <h2>{p.name}</h2>
+      <p className="tagline">{p.tagline}</p>
       <p className="lede">{p.body}</p>
     </div>
   )
