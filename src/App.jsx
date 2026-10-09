@@ -78,6 +78,7 @@ function Hero() {
     <section className="hero dark" id="top">
       <div className="hero-copy">
         <img className="hero-photo" src={profile.photo.src} alt={profile.photo.alt} width="132" height="132" />
+        <p className="hero-now">{profile.currently}</p>
         <h1>{profile.name}.</h1>
         <p className="hero-sub">{profile.tagline}</p>
         <div className="actions">
@@ -150,6 +151,7 @@ function Copy({ p }) {
     <div className="copy fade" ref={ref}>
       <h2>{p.name}</h2>
       <p className="tagline">{p.tagline}</p>
+      {p.meta && <p className="meta">{p.meta}</p>}
       <p className="lede">{p.body}</p>
     </div>
   )
@@ -359,6 +361,14 @@ function Resume() {
                 </div>
                 <p className="exp-org">{x.org}</p>
                 <p>{x.text}</p>
+                {x.impact && (
+                  <ul className="impact">
+                    {x.impact.map((m) => (
+                      <li key={m}>{m}</li>
+                    ))}
+                  </ul>
+                )}
+                {x.tech && <p className="exp-tech">{x.tech.join(' · ')}</p>}
               </li>
             ))}
           </ol>

@@ -170,6 +170,13 @@ h3 {
     0 18px 50px rgba(0, 0, 0, 0.6);
 }
 
+.hero-now {
+  margin-bottom: 14px;
+  font-size: clamp(15px, 1.4vw, 17px);
+  font-weight: 500;
+  color: #a1a1a6;
+}
+
 .hero h1 {
   font-size: clamp(48px, 9vw, 120px);
   letter-spacing: -0.035em;
@@ -741,7 +748,7 @@ h3 {
   gap: 28px;
 }
 
-.exp li > p:last-child {
+.exp li > p:nth-of-type(3) {
   margin-top: 8px;
   color: var(--fg2);
 }
@@ -796,6 +803,37 @@ h3 {
   padding: 0;
   display: grid;
   gap: 18px;
+}
+
+.meta {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg2);
+}
+
+.impact {
+  list-style: none;
+  padding: 0;
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.impact li {
+  padding: 5px 12px;
+  border-radius: 980px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.exp-tech {
+  margin-top: 12px;
+  font-size: 14px !important;
+  color: var(--fg2);
 }
 
 .coursework {

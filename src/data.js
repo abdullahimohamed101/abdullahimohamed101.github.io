@@ -4,6 +4,7 @@ export const profile = {
   name: 'Abdullahi Mohamed',
   tagline: 'I build distributed systems and infrastructure for AI.',
   photo: { src: '/abdullahi.jpg', alt: 'Portrait of Abdullahi Mohamed' },
+  currently: 'Software engineer intern at Intuit, summer 2026 · Ohio State CS ’28',
   github: GH,
   linkedin: 'https://www.linkedin.com/in/the-abdullahi-mohamed/',
 }
@@ -41,13 +42,17 @@ export const resume = {
       role: 'Software Engineer Intern',
       org: 'Intuit · Mountain View, CA',
       when: 'May – Aug 2026',
-      text: 'Built an agentic AI incident-response platform with LangGraph and FastAPI on Kubernetes, routing diagnostics across 25+ production microservices and cutting manual triage by 90%. Added a RAG pipeline over 50+ service runbooks and a self-service portal for onboarding new services.',
+      text: 'Built an agentic AI platform that triages production incidents: automated diagnostics and routing across production microservices, a RAG pipeline over internal service runbooks, and a self-service portal for onboarding new services.',
+      impact: ['90% less manual triage', '25+ microservices', '200+ eng hours saved weekly', '50+ runbooks indexed'],
+      tech: ['LangGraph', 'FastAPI', 'Kubernetes', 'RAG', 'PagerDuty', 'Splunk'],
     },
     {
       role: 'Software Engineer Research Assistant',
       org: 'The Ohio State University',
       when: 'Aug 2025 – Apr 2026',
-      text: 'A concurrent Python pipeline that normalized 120,000+ DICOM imaging slices, a PyTorch benchmarking framework for 3D CNNs and Vision Transformers that beat published baselines by 15%, and containerized distributed training on lab GPU clusters that cut training time 40%.',
+      text: 'A concurrent pipeline for medical imaging data, a benchmarking framework for 3D CNNs and Vision Transformers on vertebral fracture prediction, and containerized distributed training on lab GPU clusters.',
+      impact: ['120,000+ DICOM slices', '+15% over published baselines', '40% faster training'],
+      tech: ['Python', 'PyTorch', 'Docker', 'GPU clusters'],
     },
   ],
   leadership: [
@@ -68,6 +73,7 @@ export const featured = [
     id: 'agent-black-box',
     name: 'Agent Black Box',
     tagline: 'See everything your agent did.',
+    meta: 'Solo project · Python · FastAPI · PostgreSQL · Next.js',
     body:
       'A flight recorder for AI agents. Every model call, tool call, file edit, shell command, retry and failure, with cost and latency attached, streamed live.',
     repo: `${GH}/agent-black-box`,
@@ -88,12 +94,13 @@ export const featured = [
       { title: 'Evaluations and replay', text: 'Reliability insights, experiments, run-to-run comparison and visual replay.' },
       { title: 'Policy and approvals', text: 'A policy engine with human approval gates, plus redaction for sensitive data.' },
     ],
-    image: { src: '/agent-black-box.png', alt: 'Agent Black Box run view: a coding agent fails a test, retries and passes' },
+    image: { src: '/agent-black-box.jpg', alt: 'Agent Black Box run view: a coding agent fails a test, retries and passes' },
   },
   {
     id: 'serverflow',
     name: 'ServerFlow',
     tagline: 'Route every token.',
+    meta: 'Solo project · Go · PostgreSQL · vLLM',
     body:
       'A distributed LLM inference control plane. An OpenAI-compatible gateway, a worker registry with heartbeats and death detection, pluggable schedulers, retries on another worker, API-key auth and a reproducible benchmark harness.',
     repo: `${GH}/ServerFlow`,
