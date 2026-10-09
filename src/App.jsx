@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { profile, featured, more, footnote } from './data.js'
+import { profile, featured, more, about, resume, footnote } from './data.js'
 
 const still = () => matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -60,6 +60,7 @@ function Nav() {
         </a>
         <nav className="nav-links" aria-label="Site">
           <a href="#agent-black-box">Work</a>
+          <a href="#about">About</a>
           <a href={profile.github} target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -227,6 +228,102 @@ function Also() {
   )
 }
 
+function About() {
+  const copy = useRef(null)
+  const photo = useRef(null)
+  useFade(copy)
+  useReveal(photo)
+  return (
+    <section className="about white" id="about">
+      <div className="wrap about-grid">
+        <div className="about-photo reveal" ref={photo}>
+          <img src={about.photo.src} alt={about.photo.alt} width="900" height="900" loading="lazy" />
+        </div>
+        <div className="about-copy fade" ref={copy}>
+          <p className="about-kicker">About</p>
+          <h2>{about.headline}</h2>
+          {about.paragraphs.map((t) => (
+            <p key={t} className="about-p">
+              {t}
+            </p>
+          ))}
+          <div className="about-now">
+            <h3>Now</h3>
+            <ul>
+              {about.now.map((n) => (
+                <li key={n.name}>
+                  <b>{n.name}.</b> {n.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="about-tools">{about.toolbox.join(' · ')}</p>
+          <div className="about-actions">
+            <a className="pill" href={profile.linkedin} target="_blank" rel="noreferrer">
+              Get in touch
+            </a>
+            <a className="more" href={profile.github} target="_blank" rel="noreferrer">
+              GitHub <span aria-hidden="true">›</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <Resume />
+    </section>
+  )
+}
+
+function Resume() {
+  const ref = useRef(null)
+  useFade(ref)
+  const { education: ed, experience, leadership } = resume
+  return (
+    <div className="wrap resume fade" ref={ref}>
+      <h2>Experience.</h2>
+      <div className="resume-grid">
+        <div className="card exp">
+          <h3 className="card-h">Work</h3>
+          <ol>
+            {experience.map((x) => (
+              <li key={x.role}>
+                <div className="exp-top">
+                  <b>{x.role}</b>
+                  <span>{x.when}</span>
+                </div>
+                <p className="exp-org">{x.org}</p>
+                <p>{x.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="card">
+          <h3 className="card-h">Education</h3>
+          <p className="ed-school">{ed.school}</p>
+          <p>{ed.degree}</p>
+          <p className="muted">{ed.when}</p>
+          <ul className="chips">
+            {ed.details.map((d) => (
+              <li key={d}>{d}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="card">
+          <h3 className="card-h">Leadership</h3>
+          <ul className="lead">
+            {leadership.map((l) => (
+              <li key={l.role}>
+                <b>{l.role}</b>
+                <p>{l.org}</p>
+                <p className="muted">{l.when}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Footer() {
   return (
     <footer className="foot light">
@@ -258,6 +355,7 @@ export default function App() {
           <Project key={p.id} p={p} tone={i % 2 ? 'light' : 'dark'} />
         ))}
         <Also />
+        <About />
       </main>
       <Footer />
     </>
