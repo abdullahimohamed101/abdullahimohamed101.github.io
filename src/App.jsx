@@ -93,19 +93,51 @@ function Hero() {
   )
 }
 
+// Words light up one by one as the paragraph scrolls through the viewport.
+function useScrollFill(ref) {
+  useEffect(() => {
+    const el = ref.current
+    const words = [...el.querySelectorAll('.w')]
+    if (still()) return words.forEach((w) => w.classList.add('on'))
+    let raf = 0
+    let lit = -1
+    const draw = () => {
+      raf = 0
+      const r = el.getBoundingClientRect()
+      const start = innerHeight * 0.85
+      const end = innerHeight * 0.45 - r.height
+      const t = Math.min(Math.max((start - r.top) / (start - end), 0), 1)
+      const n = Math.round(t * words.length)
+      if (n === lit) return
+      lit = n
+      words.forEach((w, i) => w.classList.toggle('on', i < n))
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(draw)
+    }
+    draw()
+    addEventListener('scroll', onScroll, { passive: true })
+    addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      removeEventListener('scroll', onScroll)
+      removeEventListener('resize', onScroll)
+    }
+  }, [ref])
+}
+
 function Intro() {
   const ref = useRef(null)
-  useFade(ref)
+  useScrollFill(ref)
+  const words = intro.flatMap((s) => s.t.trim().split(/\s+/))
   return (
     <section className="intro dark" aria-label="Introduction">
-      <p className="wrap intro-text fade" ref={ref}>
-        {intro.map((s) =>
-          s.hi ? (
-            <strong key={s.t}>{s.t}</strong>
-          ) : (
-            <span key={s.t}>{s.t}</span>
-          ),
-        )}
+      <p className="wrap intro-text" ref={ref}>
+        {words.map((w, i) => (
+          <span key={i} className="w">
+            {w}{' '}
+          </span>
+        ))}
       </p>
     </section>
   )

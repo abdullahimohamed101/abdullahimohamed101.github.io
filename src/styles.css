@@ -299,8 +299,11 @@ h3 {
   color: #6e6e73;
 }
 
-.intro-text strong {
-  font-weight: 600;
+.intro-text .w {
+  transition: color 250ms ease-out;
+}
+
+.intro-text .w.on {
   color: var(--fg);
 }
 
