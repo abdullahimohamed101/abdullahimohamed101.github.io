@@ -85,6 +85,12 @@ export const featured = [
       { title: 'Adapters', text: 'OpenAI, Anthropic, LangGraph and MCP, with a conformance suite.' },
       { title: 'Demo agent', text: 'Fixes a broken OAuth service, fails a test, retries and passes.' },
     ],
+    // Next phases from docs/IMPLEMENTATION_PLAN.md (9-14); not built yet, so labelled as such.
+    roadmap: [
+      { title: 'Multi-agent tracing', text: 'Distributed traces across cooperating agents, shown as one waterfall.' },
+      { title: 'Evaluations and replay', text: 'Reliability insights, experiments, run-to-run comparison and visual replay.' },
+      { title: 'Policy and approvals', text: 'A policy engine with human approval gates, plus redaction for sensitive data.' },
+    ],
     image: { src: '/agent-black-box.png', alt: 'Agent Black Box run view: a coding agent fails a test, retries and passes' },
   },
   {
