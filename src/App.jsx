@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { profile, projects, traceStart, traceEnd } from './data.js'
+import { profile, projects, specNote, traceStart, traceEnd } from './data.js'
 
 const DAY = 86400000
 const t0 = new Date(traceStart).getTime()
@@ -20,7 +20,13 @@ function months() {
   const out = []
   const d = new Date(t0)
   while (d.getTime() <= t1) {
-    out.push({ q: out.length % 3 === 0, at: pct(d.getTime()), label: d.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }), jan: d.getUTCMonth() === 0, year: d.getUTCFullYear() })
+    out.push({
+      q: out.length % 3 === 0,
+      at: pct(d.getTime()),
+      label: d.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }),
+      jan: d.getUTCMonth() === 0,
+      year: d.getUTCFullYear(),
+    })
     d.setUTCMonth(d.getUTCMonth() + 1)
   }
   return out
@@ -44,28 +50,23 @@ function useTheme() {
       /* storage unavailable */
     }
   }, [theme])
-  const toggle = () => {
-    const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
-    setTheme(dark ? 'light' : 'dark')
-  }
-  return toggle
+  const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+  return [dark, () => setTheme(dark ? 'light' : 'dark')]
 }
 
 function Header() {
-  const toggleTheme = useTheme()
+  const [dark, toggleTheme] = useTheme()
   return (
     <header className="bar">
-      <div className="bar-id">
-        <span className="bar-name">{profile.name}</span>
-      </div>
+      <span className="bar-name">{profile.name}</span>
       <nav className="bar-links">
         {profile.links.map((l) => (
           <a key={l.label} href={l.href} target="_blank" rel="noreferrer">
             {l.label}
           </a>
         ))}
-        <button className="theme" onClick={toggleTheme} aria-label="Toggle color theme">
-          <span aria-hidden="true">◐</span>
+        <button className="theme" onClick={toggleTheme}>
+          {dark ? 'Light' : 'Dark'}
         </button>
       </nav>
     </header>
@@ -75,7 +76,10 @@ function Header() {
 function Trace() {
   const ticks = months()
   return (
-    <section className="trace" aria-label="Project timeline">
+    <figure className="trace">
+      <figcaption>
+        Projects by repository activity <span>· {fmt(traceStart)} – now</span>
+      </figcaption>
       <div className="trace-body">
         <div className="axis mono" aria-hidden="true">
           {ticks.map((t, i) => (
@@ -111,7 +115,36 @@ function Trace() {
           )
         })}
       </div>
-    </section>
+    </figure>
+  )
+}
+
+function Specs({ rows }) {
+  return (
+    <table className="spec">
+      <thead>
+        <tr>
+          <th scope="col">Parameter</th>
+          <th scope="col">Conditions</th>
+          <th scope="col" className="num">
+            Value
+          </th>
+          <th scope="col" className="num">
+            Target
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.param}>
+            <th scope="row">{r.param}</th>
+            <td className="cond">{r.cond}</td>
+            <td className="num mono val">{r.value}</td>
+            <td className="num mono tgt">{r.target}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 
@@ -121,6 +154,7 @@ function Project({ p }) {
       <aside className="project-meta">
         <h2>{p.name}</h2>
         <p className="lede">{p.lede}</p>
+        <p className="stack mono">{p.stack.join(' · ')}</p>
         <a className="repo" href={p.repo} target="_blank" rel="noreferrer">
           View source <span aria-hidden="true">↗</span>
         </a>
@@ -128,35 +162,17 @@ function Project({ p }) {
 
       <div className="project-main">
         <p className="body">{p.body}</p>
-
-        <div className={`metrics m${p.metrics.length}`}>
-          {p.metrics.map((m) => (
-            <div className="metric" key={m.label}>
-              <div className="metric-v mono">
-                {m.value}
-                {m.unit && <small>{m.unit}</small>}
-              </div>
-              <div className="metric-l">{m.label}</div>
-              {m.note && <div className="metric-n mono">{m.note}</div>}
-            </div>
-          ))}
-        </div>
-
-        <ul className="spans mono">
-          {p.spans.map((line, i) => (
-            <li key={i}>
-              {line}
-            </li>
+        <Specs rows={p.specs} />
+        <ul className="points">
+          {p.spans.map((line) => (
+            <li key={line}>{line}</li>
           ))}
         </ul>
-
         {p.image && (
           <figure className="shot">
             <img src={p.image} alt={p.imageAlt} loading="lazy" />
           </figure>
         )}
-
-        <p className="stack mono">{p.stack.join(' · ')}</p>
       </div>
     </article>
   )
@@ -194,9 +210,10 @@ export default function App() {
             .map((p) => (
               <Project key={p.id} p={p} />
             ))}
+          <p className="spec-note">{specNote}</p>
         </div>
         <section className="also">
-          <h2 className="also-h">Also built</h2>
+          <h2>Also built</h2>
           <ul>
             {projects
               .filter((p) => !p.featured)

@@ -12,6 +12,9 @@ export const profile = {
 }
 
 // Trace axis: real repo activity windows.
+export const specNote =
+  'Measured on one laptop (Apple M5 Pro). These are regression baselines from the repos, not capacity claims.'
+
 export const traceStart = '2025-10-01'
 export const traceEnd = '2026-10-31'
 
@@ -28,10 +31,10 @@ export const projects = [
     lede: 'A flight recorder for AI agents.',
     body:
       'Every model call, tool call, file edit, shell command, retry and failure, with cost and latency attached, streamed live to a dashboard. Built around a versioned telemetry contract rather than any single datastore.',
-    metrics: [
-      { value: '43.7', unit: 'ms', label: 'p95 batch ingest ack', note: 'target 150 ms' },
-      { value: '3.2k', unit: 'ev/s', label: 'sustained ingest', note: 'one client, 2 vCPU' },
-      { value: '2.8', unit: 'ms', label: 'p95 run read', note: '2,000-event run' },
+    specs: [
+      { param: 'Batch ingest ack, p95', cond: '1 client, 100-event batches, 2 vCPU', value: '43.7 ms', target: '< 150 ms' },
+      { param: 'Sustained ingest', cond: '1 client, worker running', value: '3,249 ev/s', target: '—' },
+      { param: 'Run read, p95', cond: '2,000-event run', value: '2.8 ms', target: '< 500 ms' },
     ],
     spans: [
       'Python SDK → FastAPI → PostgreSQL events + outbox → workers',
@@ -56,10 +59,10 @@ export const projects = [
     lede: 'A distributed LLM inference control plane.',
     body:
       'Everything between the client and the inference engine: an OpenAI-compatible gateway, a worker registry with heartbeats and death detection, pluggable schedulers, retries, API-key auth and a reproducible benchmark harness.',
-    metrics: [
-      { value: '0.5', unit: 'ms', label: 'p95 gateway overhead', note: 'budget 25 ms' },
-      { value: '0', unit: '/1000', label: 'client failures', note: 'one worker always failing' },
-      { value: '4', unit: '', label: 'scheduling strategies', note: 'rr · random · least-active · least-queue' },
+    specs: [
+      { param: 'Gateway overhead, p95', cond: 'non-streaming, concurrency 16', value: '0.48 ms', target: '< 25 ms' },
+      { param: 'Time to first chunk overhead, p95', cond: 'streaming, concurrency 16', value: '0.50 ms', target: '< 25 ms' },
+      { param: 'Client-visible failures', cond: '1,000 requests, 1 of 4 workers always failing', value: '0', target: '0' },
     ],
     spans: [
       'Gateway: /v1/chat/completions with streaming, /v1/models, /metrics',
