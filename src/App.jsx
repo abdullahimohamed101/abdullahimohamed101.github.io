@@ -51,7 +51,18 @@ function useTheme() {
     }
   }, [theme])
   const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
-  return [dark, () => setTheme(dark ? 'light' : 'dark')]
+  const toggle = () => {
+    const next = dark ? 'light' : 'dark'
+    const apply = () => {
+      document.documentElement.dataset.theme = next
+      setTheme(next)
+    }
+    // Crossfade the swap so it reads as one change, not a flash.
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!document.startViewTransition || still) apply()
+    else document.startViewTransition(apply)
+  }
+  return [dark, toggle]
 }
 
 function Header() {

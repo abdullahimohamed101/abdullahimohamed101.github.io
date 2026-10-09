@@ -10,6 +10,7 @@
   --serif: 'Source Serif 4', Georgia, serif;
   --sans: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
 }
 
@@ -115,6 +116,9 @@ main,
 .foot a {
   color: var(--ink-2);
   text-decoration: none;
+  padding: 12px 8px;
+  margin: -12px -8px;
+  transition: color 150ms var(--ease-out);
 }
 
 .bar-links a:hover,
@@ -125,10 +129,13 @@ main,
   text-underline-offset: 4px;
 }
 
+.theme:active {
+  opacity: 0.6;
+}
+
 .theme {
   background: none;
   border: 0;
-  padding: 0;
   font: inherit;
   cursor: pointer;
 }
@@ -212,18 +219,29 @@ h1 {
   grid-template-columns: var(--label) 1fr;
   align-items: center;
   height: 40px;
+  margin: 0 -18px;
+  padding: 0 18px;
   text-decoration: none;
   border-top: 1px dashed var(--line);
+  transition: background-color 150ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .row:hover {
+    background-color: color-mix(in srgb, var(--ink) 5%, transparent);
+  }
+  .trace-body:has(.row:hover) .row:not(:hover) .span {
+    opacity: 0.35;
+  }
+  .row:hover .row-label {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 }
 
 .row-label {
   font-weight: 500;
   font-size: 15px;
-}
-
-.row:hover .row-label {
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 
 .row-track {
@@ -240,8 +258,9 @@ h1 {
   border-radius: 2px;
   background: var(--done);
   transform-origin: left;
-  animation: draw 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: calc(var(--i) * 120ms + 150ms);
+  animation: draw 600ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 80ms + 200ms);
+  transition: opacity 150ms var(--ease-out);
 }
 
 .span.live {
@@ -255,8 +274,8 @@ h1 {
   font-size: 12px;
   color: var(--muted);
   white-space: nowrap;
-  animation: fade 0.4s both;
-  animation-delay: calc(var(--i) * 120ms + 900ms);
+  animation: fade 200ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 80ms + 650ms);
 }
 
 /* ---------- featured projects ---------- */
@@ -479,11 +498,20 @@ h2 {
   }
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: var(--ease-out);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
-  *::after {
+  *::after,
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
     animation: none !important;
+    transition: none !important;
   }
   html {
     scroll-behavior: auto;
