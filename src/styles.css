@@ -230,6 +230,60 @@ h3 {
   text-underline-offset: 3px;
 }
 
+/* ---------- roadmap ---------- */
+
+.roadmap {
+  max-width: 1040px;
+  margin: 64px auto 0;
+  padding: clamp(28px, 3vw, 40px);
+  border-radius: 24px;
+  border: 1px dashed color-mix(in srgb, var(--fg) 22%, transparent);
+}
+
+.roadmap-h {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 980px;
+  background: color-mix(in srgb, var(--link) 12%, transparent);
+  color: var(--link);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.roadmap ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.roadmap h3 {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.roadmap li p {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--fg2);
+}
+
+@media (max-width: 760px) {
+  .roadmap ul {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- intro ---------- */
 
 .intro {

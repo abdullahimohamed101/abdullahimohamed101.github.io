@@ -210,6 +210,21 @@ function Project({ p, tone }) {
             </li>
           ))}
         </ul>
+        {p.roadmap && (
+          <div className="roadmap">
+            <p className="roadmap-h">
+              Where it’s going <span className="badge">In progress</span>
+            </p>
+            <ul>
+              {p.roadmap.map((r) => (
+                <li key={r.title}>
+                  <h3>{r.title}</h3>
+                  <p>{r.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <p className="cta">
           <a className="more" href={p.repo} target="_blank" rel="noreferrer">
             View on GitHub <span aria-hidden="true">›</span>

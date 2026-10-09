@@ -105,6 +105,12 @@ export const featured = [
       { title: 'Retries', text: 'A request that fails before any output is retried on a different worker.' },
       { title: 'Even split', text: 'Round-robin sent 750 requests 188, 188, 187, 187 across four workers.' },
     ],
+    // End-goal architecture from the README's phase plan; not built yet, so labelled as such.
+    roadmap: [
+      { title: 'Kubernetes', text: 'Autoscaled vLLM GPU workers, placed by model availability.' },
+      { title: 'Redis + Kafka', text: 'Shared state for zero-downtime failover and a real-time event and latency stream.' },
+      { title: 'Workload-aware scheduling', text: 'Routing on live KV-cache load and queue depth, with fair sharing across tenants.' },
+    ],
     // Commands from the README; output quoted from docs/benchmarks/phase-7-sample/compare_run_001_run_004.txt.
     terminal: [
       { cmd: 'make bench BENCH_ARGS="--scheduler round-robin --workers 3 --worker-profile heterogeneous --concurrency 12 --duration 20s --warmup 3s --workload mixed --seed 1 --repeat 3"' },
