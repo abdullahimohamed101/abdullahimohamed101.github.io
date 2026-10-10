@@ -43,8 +43,9 @@ function useSheet(ref, on = true) {
       raf = 0
       const r = el.getBoundingClientRect()
       const vh = innerHeight
-      const enter = (vh - r.top) / (vh * 0.6)
-      const exit = r.bottom / (vh * 0.6)
+      const span = Math.min(vh * 0.6, r.height)
+      const enter = (vh - r.top) / span
+      const exit = r.bottom / span
       const t = Math.min(Math.max(Math.min(enter, exit), 0), 1)
       const p = t * t * (3 - 2 * t)
       el.style.setProperty('--s', (0.92 + 0.08 * p).toFixed(4))
@@ -471,8 +472,10 @@ function Experience() {
 }
 
 function Footer() {
+  const sheet = useRef(null)
+  useSheet(sheet)
   return (
-    <footer className="foot light">
+    <footer className="foot light sheet" ref={sheet}>
       <div className="wrap">
         <p className="footnote">{footnote}</p>
         <div className="foot-row">
