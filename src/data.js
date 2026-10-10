@@ -4,9 +4,7 @@ export const profile = {
   name: 'Abdullahi Mohamed',
   tagline: 'I build distributed systems and infrastructure for AI.',
   photo: { src: '/abdullahi.jpg', alt: 'Portrait of Abdullahi Mohamed' },
-  currently: 'Former SWE Intern at Intuit · Ohio State CS ’28',
-  email: 'itsabdullahi101@gmail.com',
-  resume: '/Abdullahi-Mohamed-Resume.pdf',
+  currently: 'Former SWE Intern at Intuit · Ohio State CS',
   github: GH,
   linkedin: 'https://www.linkedin.com/in/the-abdullahi-mohamed/',
 }
@@ -34,12 +32,11 @@ export const about = {
   photo: { src: '/abdullahi-portrait.jpg', alt: 'Abdullahi Mohamed, arms crossed, in front of an orange backdrop' },
 }
 
-// From the resume. Phone number, email and citizenship intentionally left off the public site.
+// From the resume. Phone, email, citizenship and graduation date intentionally left off the public site.
 export const resume = {
   education: {
     school: 'The Ohio State University',
     degree: 'B.S. Computer Science, Minor in Applied Mathematics',
-    when: 'Expected May 2028',
     details: ['GPA 3.8'],
     coursework: 'Distributed Systems · Operating Systems · Database Systems · Computer Networking · Computer Architecture · Data Structures and Algorithms · Applied Machine Learning',
   },
