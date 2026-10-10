@@ -304,7 +304,24 @@ h3 {
 /* ---------- intro ---------- */
 
 .intro {
-  padding: clamp(96px, 12vw, 160px) 0;
+  --fade: clamp(200px, 32vh, 340px);
+  padding: var(--fade) 0;
+  /* eased black -> white -> black so the hero and the next section melt into it */
+  background: linear-gradient(
+    to bottom,
+    #000 0,
+    #0b0b0c calc(var(--fade) * 0.12),
+    #2c2c2e calc(var(--fade) * 0.3),
+    #8e8e93 calc(var(--fade) * 0.55),
+    #e5e5ea calc(var(--fade) * 0.8),
+    #fff var(--fade),
+    #fff calc(100% - var(--fade)),
+    #e5e5ea calc(100% - var(--fade) * 0.8),
+    #8e8e93 calc(100% - var(--fade) * 0.55),
+    #2c2c2e calc(100% - var(--fade) * 0.3),
+    #0b0b0c calc(100% - var(--fade) * 0.12),
+    #000 100%
+  );
 }
 
 .intro-text {
