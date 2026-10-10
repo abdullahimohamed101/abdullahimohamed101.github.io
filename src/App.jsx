@@ -43,8 +43,10 @@ function useSheet(ref, on = true) {
       raf = 0
       const r = el.getBoundingClientRect()
       const vh = innerHeight
-      const span = Math.min(vh * 0.6, r.height)
-      const enter = (vh - r.top) / span
+      const span = vh * 0.9
+      // the last section can't scroll all the way up, so finish entering by the page end
+      const lowestTop = r.top + scrollY - (document.documentElement.scrollHeight - vh)
+      const enter = (vh - r.top) / Math.min(span, vh - Math.max(lowestTop, 0))
       const exit = r.bottom / span
       const t = Math.min(Math.max(Math.min(enter, exit), 0), 1)
       const p = t * t * (3 - 2 * t)
