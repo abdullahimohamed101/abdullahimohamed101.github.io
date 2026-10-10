@@ -12,7 +12,7 @@ export const profile = {
 }
 
 export const intro = [
-  { t: 'I’m Abdullahi, a CS student at Ohio State. When the internship hunt got overwhelming, I built a pipeline to do it for me. Most of what I build starts that way: something’s broken, and I want to see exactly why.' },
+  { t: 'I’m Abdullahi, a CS student at Ohio State. I take photos when I travel and build distributed systems and AI infrastructure when I don’t. Both come down to the same thing: seeing what really happened, and why.' },
 ]
 
 export const about = {

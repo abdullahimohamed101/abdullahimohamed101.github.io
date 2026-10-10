@@ -138,7 +138,7 @@ function Intro() {
   useScrollFill(ref)
   const words = intro.flatMap((s) => s.t.trim().split(/\s+/))
   return (
-    <section className="intro dark" aria-label="Introduction">
+    <section className="intro white" aria-label="Introduction">
       <p className="wrap intro-text" ref={ref}>
         {words.map((w, i) => (
           <span key={i} className="w">

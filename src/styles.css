@@ -304,7 +304,7 @@ h3 {
 /* ---------- intro ---------- */
 
 .intro {
-  padding: clamp(24px, 4vw, 48px) 0 clamp(72px, 9vw, 120px);
+  padding: clamp(96px, 12vw, 160px) 0;
 }
 
 .intro-text {
@@ -313,7 +313,7 @@ h3 {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: #6e6e73;
+  color: #c7c7cc;
 }
 
 .intro-text .w {
