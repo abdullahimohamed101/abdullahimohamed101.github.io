@@ -21,12 +21,15 @@ export const about = {
     'I like the layer most people never see: the routers, queues, pipelines and telemetry that decide whether a system is fast, reliable and debuggable.',
     'I work in phases, write down the decisions, and benchmark before I claim anything. Every number in the project sections above comes from a test in the repo, with the conditions it was measured under.',
     'Outside of class I founded the Ohio State chapter of Minorities in Technology, where we run weekly technical workshops.',
-    'Fun fact: when I’m away from the keyboard, I’m usually behind a camera or planning the next trip. Photography and travel are how I reset.',
   ],
   now: [
     { name: 'Agent Black Box', text: 'Heading toward evaluations, approvals and multi-agent tracing.' },
     { name: 'ServerFlow', text: 'Real vLLM workers next, once a GPU is in the loop.' },
   ],
+  offClock: {
+    title: 'Photography & travel.',
+    text: 'Away from the keyboard I’m usually behind a camera or planning the next trip. It’s how I reset.',
+  },
   toolbox: ['Go', 'Python', 'Java', 'TypeScript', 'C++', 'C#', 'PostgreSQL', 'Redis', 'Kafka', 'Kubernetes', 'Docker', 'AWS', 'Azure', 'PyTorch', 'vLLM', 'CUDA', 'LangGraph'],
   photo: { src: '/abdullahi-portrait.jpg', alt: 'Abdullahi Mohamed, arms crossed, in front of an orange backdrop' },
 }
@@ -44,17 +47,28 @@ export const resume = {
     {
       role: 'Software Engineer Intern',
       org: 'Intuit · Mountain View, CA',
+      co: 'Intuit',
       when: 'May – Aug 2026',
       text: 'Built an agentic AI platform that triages production incidents: automated diagnostics and routing across production microservices, a RAG pipeline over internal service runbooks, and a self-service portal for onboarding new services.',
-      impact: ['90% less manual triage', '25+ microservices', '200+ eng hours saved weekly', '50+ runbooks indexed'],
+      impact: [
+        { v: '90%', l: 'less manual incident triage' },
+        { v: '25+', l: 'production microservices covered' },
+        { v: '200+', l: 'engineering hours saved weekly' },
+        { v: '50+', l: 'service runbooks indexed for RAG' },
+      ],
       tech: ['LangGraph', 'FastAPI', 'Kubernetes', 'RAG', 'PagerDuty', 'Splunk'],
     },
     {
       role: 'Software Engineer Research Assistant',
       org: 'The Ohio State University',
+      co: 'Ohio State',
       when: 'Aug 2025 – Apr 2026',
       text: 'A concurrent pipeline for medical imaging data, a benchmarking framework for 3D CNNs and Vision Transformers on vertebral fracture prediction, and containerized distributed training on lab GPU clusters.',
-      impact: ['120,000+ DICOM slices', '+15% over published baselines', '40% faster training'],
+      impact: [
+        { v: '120K+', l: 'DICOM imaging slices processed' },
+        { v: '+15%', l: 'accuracy over published baselines' },
+        { v: '40%', l: 'faster model training' },
+      ],
       tech: ['Python', 'PyTorch', 'Docker', 'GPU clusters'],
     },
   ],

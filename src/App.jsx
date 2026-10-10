@@ -304,111 +304,131 @@ function Also() {
 }
 
 function About() {
-  const copy = useRef(null)
+  const head = useRef(null)
   const photo = useRef(null)
-  useFade(copy)
+  useFade(head)
   useReveal(photo)
+  const [lead, ...rest] = about.paragraphs
   return (
     <section className="about white" id="about">
-      <div className="wrap about-grid">
-        <div className="about-photo reveal" ref={photo}>
-          <img src={about.photo.src} alt={about.photo.alt} width="900" height="900" loading="lazy" />
-        </div>
-        <div className="about-copy fade" ref={copy}>
-          <p className="about-kicker">About</p>
-          <h2>{about.headline}</h2>
-          {about.paragraphs.map((t) => (
-            <p key={t} className="about-p">
-              {t}
-            </p>
-          ))}
-          <div className="about-now">
-            <h3>Now</h3>
+      <div className="wrap">
+        <header className="sec-head fade" ref={head}>
+          <p className="kicker">About</p>
+          <h2 className="giant">{about.headline}</h2>
+        </header>
+        <div className="bento">
+          <figure className="b-photo reveal" ref={photo}>
+            <img src={about.photo.src} alt={about.photo.alt} width="900" height="900" loading="lazy" />
+          </figure>
+          <div className="b-tile b-bio">
+            <p className="b-lead">{lead}</p>
+            {rest.map((t) => (
+              <p key={t}>{t}</p>
+            ))}
+          </div>
+          <div className="b-tile b-now">
+            <p className="b-k">Now</p>
             <ul>
               {about.now.map((n) => (
                 <li key={n.name}>
-                  <b>{n.name}.</b> {n.text}
+                  <b>{n.name}</b>
+                  <span>{n.text}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <p className="about-tools">{about.toolbox.join(' · ')}</p>
-          <div className="about-actions">
-            <a className="pill" href={`mailto:${profile.email}`}>
-              Email me
-            </a>
-            <a className="more" href={profile.resume} target="_blank" rel="noreferrer">
-              Résumé <span aria-hidden="true">›</span>
-            </a>
-            <a className="more" href={profile.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn <span aria-hidden="true">›</span>
-            </a>
+          <div className="b-tile b-fun">
+            <p className="b-k">Off the clock</p>
+            <h3>{about.offClock.title}</h3>
+            <p>{about.offClock.text}</p>
+          </div>
+          <div className="b-tile b-tools">
+            <p className="b-k">Toolbox</p>
+            <ul>
+              {about.toolbox.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
           </div>
         </div>
+        <div className="actions sec-actions">
+          <a className="pill" href={`mailto:${profile.email}`}>
+            Email me
+          </a>
+          <a className="pill ghost" href={profile.resume} target="_blank" rel="noreferrer">
+            Résumé
+          </a>
+          <a className="more" href={profile.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn <span aria-hidden="true">›</span>
+          </a>
+        </div>
       </div>
-      <Resume />
     </section>
   )
 }
 
-function Resume() {
-  const ref = useRef(null)
-  useFade(ref)
+function Experience() {
+  const head = useRef(null)
+  useFade(head)
   const { education: ed, experience, leadership } = resume
+  const lead = leadership[0]
   return (
-    <div className="wrap resume fade" ref={ref}>
-      <h2>Experience.</h2>
-      <div className="resume-grid">
-        <div className="card exp">
-          <h3 className="card-h">Work</h3>
-          <ol>
-            {experience.map((x) => (
-              <li key={x.role}>
-                <div className="exp-top">
-                  <b>{x.role}</b>
-                  <span>{x.when}</span>
+    <section className="exp-sec dark" id="experience">
+      <div className="wrap">
+        <header className="sec-head fade" ref={head}>
+          <p className="kicker">Experience</p>
+          <h2 className="giant">Where I’ve built.</h2>
+        </header>
+        <div className="roles">
+          {experience.map((x) => (
+            <article className="role" key={x.role}>
+              <div className="role-top">
+                <div>
+                  <h3 className="role-co">{x.co}</h3>
+                  <p className="role-title">{x.role}</p>
                 </div>
-                <p className="exp-org">{x.org}</p>
-                <p>{x.text}</p>
-                {x.impact && (
-                  <ul className="impact">
-                    {x.impact.map((m) => (
-                      <li key={m}>{m}</li>
-                    ))}
-                  </ul>
-                )}
-                {x.tech && <p className="exp-tech">{x.tech.join(' · ')}</p>}
-              </li>
-            ))}
-          </ol>
+                <p className="role-when">{x.when}</p>
+              </div>
+              <ul className="role-stats">
+                {x.impact.map((m) => (
+                  <li key={m.l}>
+                    <b>{m.v}</b>
+                    <span>{m.l}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="role-text">{x.text}</p>
+              <p className="role-tech">{x.tech.join(' · ')}</p>
+            </article>
+          ))}
         </div>
-        <div className="card">
-          <h3 className="card-h">Education</h3>
-          <p className="ed-school">{ed.school}</p>
-          <p>{ed.degree}</p>
-          <p className="muted">{ed.when}</p>
-          <ul className="chips">
-            {ed.details.map((d) => (
-              <li key={d}>{d}</li>
-            ))}
-          </ul>
-          <p className="coursework">{ed.coursework}</p>
-        </div>
-        <div className="card">
-          <h3 className="card-h">Leadership</h3>
-          <ul className="lead">
-            {leadership.map((l) => (
-              <li key={l.role}>
-                <b>{l.role}</b>
-                <p>{l.org}</p>
-                <p className="muted">{l.when}</p>
-                {l.text && <p className="lead-text">{l.text}</p>}
-              </li>
-            ))}
-          </ul>
+        <div className="duo">
+          <article className="role">
+            <p className="b-k">Education</p>
+            <h3 className="duo-h">Ohio State.</h3>
+            <p className="role-title">{ed.degree}</p>
+            <div className="gpa">
+              <b>{ed.details[0].replace('GPA ', '')}</b>
+              <span>
+                GPA
+                <br />
+                {ed.when.replace('Expected ', 'Class of ').replace('May ', '')}
+              </span>
+            </div>
+            <p className="role-tech">{ed.coursework}</p>
+          </article>
+          <article className="role">
+            <p className="b-k">Leadership</p>
+            <h3 className="duo-h">Founder.</h3>
+            <p className="role-title">
+              {lead.role}, {lead.org}
+            </p>
+            <p className="role-when solo">{lead.when}</p>
+            <p className="role-text">{lead.text}</p>
+          </article>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -449,6 +469,7 @@ export default function App() {
         ))}
         <Also />
         <About />
+        <Experience />
       </main>
       <Footer />
     </>
