@@ -219,6 +219,16 @@ h3 {
   background: #0077ed;
 }
 
+.pill.ghost {
+  background: transparent;
+  color: var(--link);
+  box-shadow: inset 0 0 0 1px var(--link);
+}
+
+.pill.ghost:hover {
+  background: color-mix(in srgb, var(--link) 12%, transparent);
+}
+
 .more {
   display: inline-flex;
   align-items: center;
@@ -893,7 +903,8 @@ h3 {
 
 .foot-links {
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 8px 24px;
 }
 
 .foot a {
@@ -975,7 +986,8 @@ h3 {
 
 @media (max-width: 480px) {
   .nav-links a[href='#agent-black-box'],
-  .nav-links a[href^='https://github.com'] {
+  .nav-links a[href^='https://github.com'],
+  .nav-links a[href^='https://www.linkedin.com'] {
     display: none;
   }
 }

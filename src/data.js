@@ -4,7 +4,9 @@ export const profile = {
   name: 'Abdullahi Mohamed',
   tagline: 'I build distributed systems and infrastructure for AI.',
   photo: { src: '/abdullahi.jpg', alt: 'Portrait of Abdullahi Mohamed' },
-  currently: 'Software engineer intern at Intuit, summer 2026 · Ohio State CS ’28',
+  currently: 'Former SWE Intern at Intuit · Ohio State CS ’28',
+  email: 'itsabdullahi101@gmail.com',
+  resume: '/Abdullahi-Mohamed-Resume.pdf',
   github: GH,
   linkedin: 'https://www.linkedin.com/in/the-abdullahi-mohamed/',
 }
@@ -19,6 +21,7 @@ export const about = {
     'I like the layer most people never see: the routers, queues, pipelines and telemetry that decide whether a system is fast, reliable and debuggable.',
     'I work in phases, write down the decisions, and benchmark before I claim anything. Every number in the project sections above comes from a test in the repo, with the conditions it was measured under.',
     'Outside of class I founded the Ohio State chapter of Minorities in Technology, where we run weekly technical workshops.',
+    'Fun fact: when I’m away from the keyboard, I’m usually behind a camera or planning the next trip. Photography and travel are how I reset.',
   ],
   now: [
     { name: 'Agent Black Box', text: 'Heading toward evaluations, approvals and multi-agent tracing.' },
@@ -73,7 +76,7 @@ export const featured = [
     id: 'agent-black-box',
     name: 'Agent Black Box',
     tagline: 'See everything your agent did.',
-    meta: 'Solo project · Python · FastAPI · PostgreSQL · Next.js',
+    meta: 'Python · FastAPI · PostgreSQL · Next.js · TypeScript',
     body:
       'A flight recorder for AI agents. Every model call, tool call, file edit, shell command, retry and failure, with cost and latency attached, streamed live.',
     repo: `${GH}/agent-black-box`,
@@ -100,7 +103,7 @@ export const featured = [
     id: 'serverflow',
     name: 'ServerFlow',
     tagline: 'Route every token.',
-    meta: 'Solo project · Go · PostgreSQL · vLLM',
+    meta: 'Go · PostgreSQL · vLLM · Docker',
     body:
       'A distributed LLM inference control plane. An OpenAI-compatible gateway, a worker registry with heartbeats and death detection, pluggable schedulers, retries on another worker, API-key auth and a reproducible benchmark harness.',
     repo: `${GH}/ServerFlow`,

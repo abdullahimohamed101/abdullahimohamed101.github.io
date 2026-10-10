@@ -61,6 +61,9 @@ function Nav() {
         <nav className="nav-links" aria-label="Site">
           <a href="#agent-black-box">Work</a>
           <a href="#about">About</a>
+          <a href={profile.resume} target="_blank" rel="noreferrer">
+            Résumé
+          </a>
           <a href={profile.github} target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -82,8 +85,11 @@ function Hero() {
         <h1>{profile.name}.</h1>
         <p className="hero-sub">{profile.tagline}</p>
         <div className="actions">
-          <a className="pill" href={profile.linkedin} target="_blank" rel="noreferrer">
+          <a className="pill" href={`mailto:${profile.email}`}>
             Get in touch
+          </a>
+          <a className="pill ghost" href={profile.resume} target="_blank" rel="noreferrer">
+            Résumé
           </a>
           <a className="more" href="#agent-black-box">
             See the work <span aria-hidden="true">›</span>
@@ -328,11 +334,14 @@ function About() {
           </div>
           <p className="about-tools">{about.toolbox.join(' · ')}</p>
           <div className="about-actions">
-            <a className="pill" href={profile.linkedin} target="_blank" rel="noreferrer">
-              Get in touch
+            <a className="pill" href={`mailto:${profile.email}`}>
+              Email me
             </a>
-            <a className="more" href={profile.github} target="_blank" rel="noreferrer">
-              GitHub <span aria-hidden="true">›</span>
+            <a className="more" href={profile.resume} target="_blank" rel="noreferrer">
+              Résumé <span aria-hidden="true">›</span>
+            </a>
+            <a className="more" href={profile.linkedin} target="_blank" rel="noreferrer">
+              LinkedIn <span aria-hidden="true">›</span>
             </a>
           </div>
         </div>
@@ -411,6 +420,10 @@ function Footer() {
         <div className="foot-row">
           <span>{profile.name}</span>
           <nav className="foot-links" aria-label="Profiles">
+            <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            <a href={profile.resume} target="_blank" rel="noreferrer">
+              Résumé
+            </a>
             <a href={profile.github} target="_blank" rel="noreferrer">
               GitHub
             </a>
