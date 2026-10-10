@@ -32,6 +32,38 @@ function useReveal(ref) {
   }, [ref])
 }
 
+// Light sections arrive as a rounded sheet that grows to full bleed, and leave the same way.
+// Progress is tied to scroll position, so it can be stopped or reversed at any point.
+function useSheet(ref, on = true) {
+  useEffect(() => {
+    const el = ref.current
+    if (!on || !el || still()) return
+    let raf = 0
+    const draw = () => {
+      raf = 0
+      const r = el.getBoundingClientRect()
+      const vh = innerHeight
+      const enter = (vh - r.top) / (vh * 0.6)
+      const exit = r.bottom / (vh * 0.6)
+      const t = Math.min(Math.max(Math.min(enter, exit), 0), 1)
+      const p = t * t * (3 - 2 * t)
+      el.style.setProperty('--s', (0.92 + 0.08 * p).toFixed(4))
+      el.style.setProperty('--r', `${(44 * (1 - p)).toFixed(1)}px`)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(draw)
+    }
+    draw()
+    addEventListener('scroll', onScroll, { passive: true })
+    addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      removeEventListener('scroll', onScroll)
+      removeEventListener('resize', onScroll)
+    }
+  }, [ref, on])
+}
+
 // Section copy fades up once.
 function useFade(ref) {
   useEffect(() => {
@@ -135,10 +167,12 @@ function useScrollFill(ref) {
 
 function Intro() {
   const ref = useRef(null)
+  const sheet = useRef(null)
   useScrollFill(ref)
+  useSheet(sheet)
   const words = intro.flatMap((s) => s.t.trim().split(/\s+/))
   return (
-    <section className="intro white" aria-label="Introduction">
+    <section className="intro white sheet" aria-label="Introduction" ref={sheet}>
       <p className="wrap intro-text" ref={ref}>
         {words.map((w, i) => (
           <span key={i} className="w">
@@ -236,8 +270,10 @@ function Stats({ stats }) {
 }
 
 function Project({ p, tone }) {
+  const sheet = useRef(null)
+  useSheet(sheet, tone === 'light')
   return (
-    <section className={`project ${tone}`} id={p.id}>
+    <section className={`project ${tone}${tone === 'light' ? ' sheet' : ''}`} id={p.id} ref={sheet}>
       <div className="wrap">
         <Copy p={p} />
         {p.image ? <Shot image={p.image} name={p.name} /> : <Terminal lines={p.terminal} name={p.name} />}
@@ -306,11 +342,13 @@ function Also() {
 function About() {
   const head = useRef(null)
   const photo = useRef(null)
+  const sheet = useRef(null)
   useFade(head)
   useReveal(photo)
+  useSheet(sheet)
   const [lead, ...rest] = about.paragraphs
   return (
-    <section className="about white" id="about">
+    <section className="about white sheet" id="about" ref={sheet}>
       <div className="wrap">
         <header className="sec-head fade" ref={head}>
           <p className="kicker">About</p>
