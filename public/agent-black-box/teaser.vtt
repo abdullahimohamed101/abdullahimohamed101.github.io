@@ -1,0 +1,21 @@
+WEBVTT
+
+1
+00:00:00.601 --> 00:00:02.668
+A failed run. Open it.
+
+2
+00:00:05.012 --> 00:00:07.812
+One sentence says where it broke.
+
+3
+00:00:08.923 --> 00:00:11.656
+The red line is the first error.
+
+4
+00:00:12.225 --> 00:00:15.225
+Press e. The failed tool call opens.
+
+5
+00:00:15.625 --> 00:00:18.826
+What went wrong, from the event itself.
