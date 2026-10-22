@@ -132,7 +132,14 @@ function Shot({ image, name }) {
   return (
     <div className="reveal" ref={ref}>
       <Window title={name}>
-        <img src={image.src} alt={image.alt} width="1400" height="875" />
+        {image.still ? (
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcSet={image.still} />
+            <img className="fit" src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+          </picture>
+        ) : (
+          <img src={image.src} alt={image.alt} width="1400" height="875" />
+        )}
       </Window>
     </div>
   )
@@ -202,7 +209,7 @@ function Project({ p, tone }) {
         {p.roadmap && (
           <div className="roadmap">
             <p className="roadmap-h">
-              Where it’s going <span className="badge">In progress</span>
+              {p.roadmapTitle || 'Where it’s going'} <span className="badge">{p.roadmapBadge || 'In progress'}</span>
             </p>
             <ul>
               {p.roadmap.map((r) => (
@@ -212,6 +219,7 @@ function Project({ p, tone }) {
                 </li>
               ))}
             </ul>
+            {p.next && <p className="roadmap-next">{p.next}</p>}
           </div>
         )}
         <p className="cta">

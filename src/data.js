@@ -21,7 +21,7 @@ export const about = {
     'Outside of class I founded the Ohio State chapter of Minorities in Technology, where we run weekly technical workshops.',
   ],
   now: [
-    { name: 'Agent Black Box', text: 'Heading toward evaluations, approvals and multi-agent tracing.' },
+    { name: 'Agent Black Box', text: 'Deploying it to a private server; the hosting recipe is built and tested locally.' },
     { name: 'ServerFlow', text: 'Real vLLM workers next, once a GPU is in the loop.' },
   ],
   offClock: {
@@ -103,13 +103,26 @@ export const featured = [
       { title: 'Adapters', text: 'OpenAI, Anthropic, LangGraph and MCP, with a conformance suite.' },
       { title: 'Demo agent', text: 'Fixes a broken OAuth service, fails a test, retries and passes.' },
     ],
-    // Next phases from docs/IMPLEMENTATION_PLAN.md (9-14); not built yet, so labelled as such.
+    // Built and merged in the repo (phases 9 to 19); the one open item is deploying it to a real server.
+    roadmapTitle: 'What’s built since',
+    roadmapBadge: 'Built',
     roadmap: [
-      { title: 'Multi-agent tracing', text: 'Distributed traces across cooperating agents, shown as one waterfall.' },
-      { title: 'Evaluations and replay', text: 'Reliability insights, experiments, run-to-run comparison and visual replay.' },
-      { title: 'Policy and approvals', text: 'A policy engine with human approval gates, plus redaction for sensitive data.' },
+      { title: 'Multi-agent tracing', text: 'Distributed traces across cooperating agents, shown as one waterfall with its critical path.' },
+      { title: 'Evaluations and replay', text: 'Experiments, run-to-run comparison and visual replay of a finished run.' },
+      { title: 'Policy, approvals and redaction', text: 'A policy engine that holds risky actions for a human approval, and redaction of sensitive data.' },
+      { title: 'Automatic findings', text: 'Detectors for failure chains, retry storms and loops, each linked to its evidence.' },
+      { title: 'Invitation-only sign-in', text: 'Sign in with Google by invitation, with every workspace isolated from the others.' },
+      { title: 'Redesigned dashboard', text: 'A rebuilt dashboard for runs, review, analytics and experiments.' },
+      { title: 'Private hosting recipe', text: 'One small server: Docker Compose, Caddy automatic HTTPS, encrypted and restore-tested backups, and monitoring.' },
     ],
-    image: { src: '/agent-black-box.jpg', alt: 'Agent Black Box run view: a coding agent fails a test, retries and passes' },
+    next: 'Next: deploying it to a real server. That is underway and not live yet.',
+    image: {
+      src: '/agent-black-box/teaser.gif',
+      still: '/agent-black-box/teaser-poster.jpg',
+      width: 960,
+      height: 540,
+      alt: 'A looping 19-second screen recording: the Runs list, a failed run opened, its one-sentence summary, and the first error marked on the timeline',
+    },
   },
   {
     id: 'serverflow',

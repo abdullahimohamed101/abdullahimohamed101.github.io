@@ -74,6 +74,17 @@ function Hero() {
             Get in touch <span aria-hidden="true">›</span>
           </a>
         </div>
+        <picture className="abb-preview">
+          <source media="(prefers-reduced-motion: reduce)" srcSet={asset('teaser-poster.jpg')} />
+          <img
+            src={asset('teaser.gif')}
+            alt="A looping 19-second screen recording: the Runs list, a failed run opened, its one-sentence summary, and the first error marked on the timeline"
+            width="960"
+            height="540"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       </div>
     </section>
   )
