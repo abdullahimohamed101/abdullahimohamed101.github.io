@@ -455,3 +455,11 @@ main:focus {
     0 0 0 1px rgba(255, 255, 255, 0.08),
     0 30px 80px rgba(0, 0, 0, 0.55);
 }
+
+/* The sheet shrinks around its centre (styles.css), which is fine for a short section but moves the top edge of a tall one
+   (the six-screenshot walkthrough is thousands of pixels high, so 8% is hundreds of pixels) down past its own heading.
+   Narrow it sideways only: the top and bottom edges stay with the section's content. */
+.abb-sec.sheet::before,
+.foot.sheet::before {
+  transform: scale(var(--s, 1), 1);
+}
