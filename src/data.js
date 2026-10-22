@@ -91,6 +91,7 @@ export const featured = [
     body:
       'A flight recorder for AI agents. Every model call, tool call, file edit, shell command, retry and failure, with cost and latency attached, streamed live.',
     repo: `${GH}/agent-black-box`,
+    caseStudy: '/agent-black-box/',
     stats: [
       { value: '43.7', unit: 'ms', label: 'p95 batch ingest ack', note: 'target 150 ms' },
       { value: '3,249', unit: 'events/s', label: 'sustained ingest' },

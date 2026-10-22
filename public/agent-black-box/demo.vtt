@@ -1,0 +1,73 @@
+WEBVTT
+
+1
+00:00:02.601 --> 00:00:04.667
+A failed run. Open it.
+
+2
+00:00:06.807 --> 00:00:09.606
+One sentence says where it broke.
+
+3
+00:00:10.811 --> 00:00:13.877
+Spend after the first error, counted.
+
+4
+00:00:14.480 --> 00:00:17.213
+The red line is the first error.
+
+5
+00:00:17.981 --> 00:00:20.982
+Press e. The failed tool call opens.
+
+6
+00:00:21.381 --> 00:00:24.581
+What went wrong, from the event itself.
+
+7
+00:00:25.292 --> 00:00:28.625
+Every model call carries tokens and cost.
+
+8
+00:00:28.891 --> 00:00:31.825
+Retries are retries, not log lines.
+
+9
+00:00:33.128 --> 00:00:36.328
+Findings, from deterministic detectors.
+
+10
+00:00:36.578 --> 00:00:39.511
+Each finding links to its evidence.
+
+11
+00:00:40.862 --> 00:00:43.730
+Five agents, one run, one picture.
+
+12
+00:00:44.214 --> 00:00:47.213
+The thick edge is the critical path.
+
+13
+00:00:48.564 --> 00:00:51.431
+The agent asked. A person decides.
+
+14
+00:00:51.765 --> 00:00:54.430
+One approval, one action, once.
+
+15
+00:00:55.788 --> 00:00:58.254
+What the week cost, per run.
+
+16
+00:00:58.537 --> 00:01:01.871
+Failed runs, retries, spend after errors.
+
+17
+00:01:03.224 --> 00:01:06.891
+Destructive commands, secret reads, risky git.
+
+18
+00:01:07.174 --> 00:01:09.774
+Every finding states its rule.

@@ -1093,3 +1093,13 @@ h3 {
     display: none;
   }
 }
+
+/* ---------- project call to action (case-study link) ---------- */
+
+.cta:has(.pill) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px 36px;
+}
