@@ -93,9 +93,9 @@ export const featured = [
     repo: `${GH}/agent-black-box`,
     caseStudy: '/agent-black-box/',
     stats: [
-      { value: '43.7', unit: 'ms', label: 'p95 batch ingest ack', note: 'target 150 ms' },
-      { value: '3,249', unit: 'events/s', label: 'sustained ingest' },
-      { value: '2.8', unit: 'ms', label: 'p95 run read', note: '2,000-event run' },
+      { value: '43.7', unit: 'ms', label: 'p95 batch ingest ack', note: 'Phase 2 baseline; target 150 ms' },
+      { value: '3,249', unit: 'events/s', label: 'sustained ingest', note: 'Phase 2 baseline' },
+      { value: '10', unit: 'ms', label: 'p95 run read', note: '2,000-event run, Phase 16 re-check' },
     ],
     features: [
       { title: 'Pipeline', text: 'Python SDK → FastAPI → PostgreSQL → workers, on a versioned telemetry contract.' },
